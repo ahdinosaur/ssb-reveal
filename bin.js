@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var pull = require('pull-stream')
 var Client = require('ssb-client')
 var sort = require('ssb-sort')
@@ -5,31 +7,39 @@ var parallel = require('run-parallel')
 
 var rootMessageId = process.argv[2]
 
-Client(function (err, client) {
-  if (err) throw err
+if (rootMessageId == null) {
+  console.log('usage: ssb-reveal <rootMessageId>')
+} else {
+  run()
+}
 
-  parallel(
-    [
-      cb => getMessage({ client, messageId: rootMessageId }, cb),
-      cb => getThreadRepliesByRootId({ client, rootMessageId }, cb),
-      cb => client.about.get(cb)
-    ],
-    function (err, [rootMessage, threadReplies, about]) {
-      if (err) throw err
+function run () {
+  Client(function (err, client) {
+    if (err) throw err
 
-      var thread = [rootMessage, ...threadReplies]
-      thread.forEach(function (message, index) {
-        if (index === 0) {
-          console.log(`- ${formatMessageLink({ message, about })}`)
-        } else {
-          console.log(`  - ${formatMessageLink({ message, about })}`)
-        }
-      })
+    parallel(
+      [
+        cb => getMessage({ client, messageId: rootMessageId }, cb),
+        cb => getThreadRepliesByRootId({ client, rootMessageId }, cb),
+        cb => client.about.get(cb)
+      ],
+      function (err, [rootMessage, threadReplies, about]) {
+        if (err) throw err
 
-      client.close()
-    }
-  )
-})
+        var thread = [rootMessage, ...threadReplies]
+        thread.forEach(function (message, index) {
+          if (index === 0) {
+            console.log(`- ${formatMessageLink({ message, about })}`)
+          } else {
+            console.log(`  - ${formatMessageLink({ message, about })}`)
+          }
+        })
+
+        client.close()
+      }
+    )
+  })
+}
 
 function formatMessageLink ({ message, about }) {
   var authorName = about[message.value.author]['name'][message.value.author][0]
