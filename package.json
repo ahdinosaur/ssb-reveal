@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "reveal private scuttlebutt threads",
   "main": "index.js",
+  "bin": "bin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
