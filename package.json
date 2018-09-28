@@ -1,0 +1,29 @@
+{
+  "name": "ssb-reveal",
+  "version": "0.0.0",
+  "description": "reveal private scuttlebutt threads",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahdinosaur/ssb-reveal.git"
+  },
+  "keywords": [
+    "scuttlebutt",
+    "ssb"
+  ],
+  "author": "ahdinosaur",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ahdinosaur/ssb-reveal/issues"
+  },
+  "homepage": "https://github.com/ahdinosaur/ssb-reveal#readme",
+  "dependencies": {
+    "pull-stream": "^3.6.9",
+    "run-parallel": "^1.1.9",
+    "ssb-client": "^4.6.0",
+    "ssb-sort": "^1.1.0"
+  }
+}
